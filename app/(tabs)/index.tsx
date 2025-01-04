@@ -1,14 +1,26 @@
-import { StyleSheet } from 'react-native';
+import CircularTimer from "@/components/CircularTimer";
+import { StyleSheet, View, TouchableOpacity, Text } from "react-native";
+import React, { useState, useEffect } from "react";
 
-import EditScreenInfo from '@/components/EditScreenInfo';
-import { Text, View } from '@/components/Themed';
+export default function App() {
+  const [isPaused, setIsPaused] = useState(false);
 
-export default function TabOneScreen() {
+  const togglePause = () => setIsPaused((prev) => !prev);
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Tab One</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="app/(tabs)/index.tsx" />
+      <View style={styles.timerContainer}>
+        <View style={styles.outerCircle}>
+          <CircularTimer isPaused={isPaused} duration={60} />
+        </View>
+      </View>
+      <View>
+        <TouchableOpacity style={styles.pauseButton} onPress={togglePause}>
+          <Text style={styles.pauseButtonText}>
+            {isPaused ? "Resume" : "Pause"}
+          </Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
@@ -16,16 +28,36 @@ export default function TabOneScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#050505",
+    alignItems: "center",
+    justifyContent: "center",
   },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
+  timerContainer: {
+    justifyContent: "center",
+    alignItems: "center",
   },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
+  outerCircle: {
+    width: 250,
+    height: 250,
+    borderRadius: 125,
+    borderColor: "#333333",
+    justifyContent: "center",
+    alignItems: "center",
+    shadowColor: "#f5a623",
+    shadowOpacity: 0.5,
+    shadowRadius: 100,
+    shadowOffset: { width: 0, height: 0 },
+  },
+  pauseButton: {
+    backgroundColor: "#333333",
+    paddingHorizontal: 100,
+    paddingVertical: 15,
+    borderRadius: 25,
+    marginTop: 20,
+  },
+  pauseButtonText: {
+    color: "#ffffff",
+    fontSize: 18,
+    fontWeight: "600",
   },
 });
