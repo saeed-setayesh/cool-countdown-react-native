@@ -1,12 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, View, Text } from "react-native";
-import Svg, { Circle } from "react-native-svg";
+import Svg, { Circle as RawCircle, CircleProps } from "react-native-svg";
 import Animated, {
   useSharedValue,
   useAnimatedProps,
   withTiming,
   cancelAnimation,
 } from "react-native-reanimated";
+
+// Explicitly type the forwarded ref for the Circle component
+const Circle = React.forwardRef<RawCircle, CircleProps>((props, ref) => {
+  return <RawCircle ref={ref} {...props} />;
+});
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 
@@ -40,25 +45,23 @@ const CircularTimer = ({ duration = 10, isPaused = false }) => {
   };
 
   return (
-    <>
-      <View style={styles.container}>
-        <Svg height="275" width="275" viewBox="0 0 120 120">
-          <Circle cx="60" cy="60" r="60" strokeWidth="10" fill="none" />
-          <AnimatedCircle
-            cx="60"
-            cy="60"
-            r="60"
-            stroke="#FFC145"
-            strokeWidth="1"
-            fill="none"
-            strokeDasharray={2 * Math.PI * 60}
-            animatedProps={animatedProps}
-            strokeLinecap="round"
-          />
-        </Svg>
-        <Text style={styles.timerText}>{formatTime(timeLeft)}s</Text>
-      </View>
-    </>
+    <View style={styles.container}>
+      <Svg height="275" width="275" viewBox="0 0 120 120">
+        <Circle cx="60" cy="60" r="60" strokeWidth="10" fill="none" />
+        <AnimatedCircle
+          cx="60"
+          cy="60"
+          r="60"
+          stroke="#FFC145"
+          strokeWidth="1"
+          fill="none"
+          strokeDasharray={2 * Math.PI * 60}
+          animatedProps={animatedProps}
+          strokeLinecap="round"
+        />
+      </Svg>
+      <Text style={styles.timerText}>{formatTime(timeLeft)}s</Text>
+    </View>
   );
 };
 

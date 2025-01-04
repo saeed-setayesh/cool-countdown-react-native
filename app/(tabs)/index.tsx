@@ -1,4 +1,4 @@
-import CircularTimer from "@/components/CircularTimer";
+import CircularTimer from "@/components/CircularTimer/CircularTimer";
 import { StyleSheet, View, TouchableOpacity, Text } from "react-native";
 import React, { useState, useEffect } from "react";
 
